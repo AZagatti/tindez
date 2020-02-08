@@ -8,14 +8,14 @@ import Main from '../screens/Main'
 const { Navigator, Screen } = createStackNavigator();
 
 export default () => {
-    const options = useMemo(() => ({ headerShown: false }), []);
+  const options = useMemo(() => ({ headerShown: false }), []);
 
-    return (
-        <NavigationContainer>
-            <Navigator>
-                <Screen name="login" component={Login} options={options} />
-                <Screen name="main" component={Main} options={options} />
-            </Navigator>
-        </NavigationContainer>
-    )
+  return (
+    <NavigationContainer>
+      <Navigator>
+        <Screen name="login" component={Login} options={options} />
+        <Screen name="main" component={Main} options={options} />
+      </Navigator>
+    </NavigationContainer>
+  )
 }
