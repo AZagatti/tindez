@@ -3,12 +3,12 @@ import { SafeAreaView, View, Text, Image, TextInput, TouchableOpacity } from 're
 
 import logo from '../assets/images/logo.png';
 
-export default memo(() => {
+export default memo(({ navigation: { navigate } }) => {
     const [username, setUsername] = useState('');
 
     const onSubmit = useCallback(() => {
-        console.log(username)
-    }, [username]);
+        navigate('main')
+    }, [navigate]);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
