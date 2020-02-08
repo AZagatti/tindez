@@ -1,71 +1,93 @@
-import React, { memo, useCallback, useState } from 'react';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  Image,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useCallback } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import logo from '../assets/images/logo.png';
+import like from '../assets/images/like.png';
+import dislike from '../assets/images/dislike.png';
 
-export default memo(({ navigation: { navigate } }) => {
-  const [username, setUsername] = useState('');
+export default ({ navigation: { navigate } }) => {
+	const onLogout = useCallback(() => navigate('login'), [navigate]);
 
-  const onSubmit = useCallback(() => {
-    navigate('main');
-  }, [navigate]);
+	return (
+		<View style={styles.container}>
+			<TouchableOpacity onPress={onLogout}>
+				<Image source={logo} />
+			</TouchableOpacity>
 
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#f5f5f5',
-          justifyContent: 'center',
-          alignItems: 'center',
-          padding: 30,
-        }}>
-        <Image source={logo} />
-        <TextInput
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Digite seu usuário no Github..."
-          style={{
-            marginTop: 20,
-            paddingHorizontal: 15,
-            height: 45,
-            alignSelf: 'stretch',
-            backgroundColor: '#FFF',
-            borderWidth: 1,
-            borderColor: '#ddd',
-            borderRadius: 4,
-          }}
-          value={username}
-          onChangeText={setUsername}
-        />
-        <TouchableOpacity
-          onPress={onSubmit}
-          style={{
-            marginTop: 10,
-            height: 45,
-            alignSelf: 'stretch',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#DF3723',
-            borderRadius: 4,
-          }}>
-          <Text
-            style={{
-              color: '#FFF',
-              fontWeight: 'bold',
-              fontSize: 16,
-            }}>
-            ENTRAR
+			<View style={styles.card}>
+				<Image style={styles.avatar} source={null} />
+				<View style={styles.description}>
+					<Text style={styles.name}>Maykon Michel</Text>
+					<Text style={styles.bio} numberOfLines={3}>
+						ez.developer
           </Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  );
+				</View>
+			</View>
+
+			<View style={styles.buttons}>
+				<TouchableOpacity style={styles.button}>
+					<Image source={dislike} />
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button}>
+					<Image source={like} />
+				</TouchableOpacity>
+			</View>
+		</View>
+	);
+};
+
+const styles = StyleSheet.create({
+	avatar: {
+		height: 300,
+		width: 300,
+	},
+	bio: {
+		fontSize: 14,
+		color: '#999',
+		marginTop: 5,
+		lineHeight: 18,
+	},
+	button: {
+		width: 50,
+		height: 50,
+		borderRadius: 25,
+		backgroundColor: '#FFF',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginHorizontal: 20,
+		elevation: 2,
+		shadowColor: '#000',
+		shadowOpacity: 0.05,
+		shadowRadius: 2,
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+	},
+	buttons: {
+		flexDirection: 'row',
+	},
+	card: {
+		borderWidth: 1,
+		borderColor: '#DDD',
+		borderRadius: 8,
+		margin: 30,
+	},
+	container: {
+		flex: 1,
+		paddingVertical: 30,
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		backgroundColor: '#f5f5f5',
+	},
+	description: {
+		paddingHorizontal: 20,
+		paddingVertical: 15,
+		borderRadius: 8,
+	},
+	name: {
+		fontSize: 16,
+		fontWeight: 'bold',
+		color: '#333',
+	},
 });
