@@ -1,93 +1,65 @@
-import React, { useCallback } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { memo, useCallback, useState } from 'react';
+import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
+import api from '../services/api'
 import logo from '../assets/images/logo.png';
-import like from '../assets/images/like.png';
-import dislike from '../assets/images/dislike.png';
 
-export default ({ navigation: { navigate } }) => {
-	const onLogout = useCallback(() => navigate('login'), [navigate]);
+export default memo(({ navigation: { navigate } }) => {
+    const [username, setUsername] = useState('');
 
-	return (
-		<View style={styles.container}>
-			<TouchableOpacity onPress={onLogout}>
-				<Image source={logo} />
-			</TouchableOpacity>
+    const onSubmit = useCallback(async () => {
+        const { data: { _id: id } } = await api.post('/devs', { username });
 
-			<View style={styles.card}>
-				<Image style={styles.avatar} source={null} />
-				<View style={styles.description}>
-					<Text style={styles.name}>Maykon Michel</Text>
-					<Text style={styles.bio} numberOfLines={3}>
-						ez.developer
-          </Text>
-				</View>
-			</View>
+        navigate('main', { id });
+    }, [navigate]);
 
-			<View style={styles.buttons}>
-				<TouchableOpacity style={styles.button}>
-					<Image source={dislike} />
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.button}>
-					<Image source={like} />
-				</TouchableOpacity>
-			</View>
-		</View>
-	);
-};
-
-const styles = StyleSheet.create({
-	avatar: {
-		height: 300,
-		width: 300,
-	},
-	bio: {
-		fontSize: 14,
-		color: '#999',
-		marginTop: 5,
-		lineHeight: 18,
-	},
-	button: {
-		width: 50,
-		height: 50,
-		borderRadius: 25,
-		backgroundColor: '#FFF',
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginHorizontal: 20,
-		elevation: 2,
-		shadowColor: '#000',
-		shadowOpacity: 0.05,
-		shadowRadius: 2,
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-	},
-	buttons: {
-		flexDirection: 'row',
-	},
-	card: {
-		borderWidth: 1,
-		borderColor: '#DDD',
-		borderRadius: 8,
-		margin: 30,
-	},
-	container: {
-		flex: 1,
-		paddingVertical: 30,
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		backgroundColor: '#f5f5f5',
-	},
-	description: {
-		paddingHorizontal: 20,
-		paddingVertical: 15,
-		borderRadius: 8,
-	},
-	name: {
-		fontSize: 16,
-		fontWeight: 'bold',
-		color: '#333',
-	},
+    return (
+        <View
+            style={{
+                flex: 1,
+                backgroundColor: '#f5f5f5',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: 30,
+            }}>
+            <Image source={logo} />
+            <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                placeholder="Digite seu usuário no GitHub"
+                style={{
+                    marginTop: 20,
+                    paddingHorizontal: 15,
+                    height: 45,
+                    alignSelf: 'stretch',
+                    backgroundColor: '#fff',
+                    borderWidth: 1,
+                    borderColor: '#ddd',
+                    borderRadius: 4,
+                }}
+                value={username}
+                onChangeText={setUsername}
+            />
+            <TouchableOpacity
+                onPress={onSubmit}
+                style={{
+                    marginTop: 10,
+                    height: 45,
+                    alignSelf: 'stretch',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#DF3723',
+                    borderRadius: 4,
+                }}>
+                <Text
+                    style={{
+                        color: '#fff',
+                        fontWeight: 'bold',
+                        fontSize: 16,
+                    }}>
+                    ENTRAR
+        </Text>
+            </TouchableOpacity>
+        </View>
+    );
 });
