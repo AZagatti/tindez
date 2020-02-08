@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { SafeAreaView, View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 
-import logo from './src/assets/images/logo.png';
+import logo from '../assets/images/logo.png';
 
-export default () => {
+export default memo(() => {
     const [username, setUsername] = useState('');
 
     const onSubmit = useCallback(() => {
@@ -59,4 +59,4 @@ export default () => {
             </View>
         </SafeAreaView>
     )
-}
+})
