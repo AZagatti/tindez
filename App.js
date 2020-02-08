@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { SafeAreaView, View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 
 import logo from './src/assets/images/logo.png';
@@ -6,7 +6,9 @@ import logo from './src/assets/images/logo.png';
 export default () => {
   const [username, setUsername] = useState('');
 
-  console.log(username)
+  const onSubmit = useCallback(() => {
+    console.log(username)
+  }, [username]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -37,6 +39,7 @@ export default () => {
           onChangeText={setUsername}
         />
         <TouchableOpacity
+          onPress={onSubmit}
           style={{
             marginTop: 10,
             height: 45,
